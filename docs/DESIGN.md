@@ -113,7 +113,7 @@ We deliberately do not maintain a second MRU database.
 
 ## Eligible windows
 
-The MVP currently keeps clients that are:
+The switcher keeps clients that are:
 
 - mapped;
 - not hidden;
@@ -146,7 +146,7 @@ text fallback rather than disappearing.
 
 ## UI structure
 
-The MVP is a single Omarchy `service` entry point:
+The plugin is a single Omarchy `service` entry point:
 
 ```text
 org.lsong.window-switcher
@@ -243,11 +243,11 @@ The plugin therefore keeps its own owner token to reduce the chance that an old
 instance restores bindings after a newer instance has replaced it, but it
 cannot perfectly preserve arbitrary user mappings that use the same chords.
 
-For the MVP, custom mappings on these chords are considered conflicting.
+Custom mappings on these chords are considered conflicting.
 
 ## Window activation
 
-The MVP focuses the selected client by exact Hyprland address:
+The switcher focuses the selected client by exact Hyprland address:
 
 ```bash
 hyprctl eval 'hl.dispatch(hl.dsp.focus({ window = "address:0x..." }))'
@@ -303,10 +303,10 @@ Examples:
 - release before query completion → cancel query result logically;
 - invalid selected index → cancel rather than focus an arbitrary window.
 
-## Local validation checklist
+## Validation checklist
 
-Codex should validate behavior on a real Omarchy/Hyprland session before
-expanding the implementation.
+Validate behavior on a real Omarchy/Hyprland session before changing the
+interaction model.
 
 ### Plugin lifecycle
 
@@ -390,15 +390,14 @@ Confirm:
 - another monitor's window can be selected;
 - overlay stays on the monitor focused at session start.
 
-## MVP completion criteria
+## Release criteria
 
-The MVP is complete when the local validation checklist passes reliably.
+A release is ready when the validation checklist passes reliably.
 
 Do not treat visual polish as a blocker unless it affects readability or input
 behavior.
 
-Once the MVP is stable, likely follow-up work should remain small and evidence
-driven, for example:
+Follow-up work should remain small and evidence driven, for example:
 
 - better card aspect sizing;
 - application icon fallback;
@@ -406,4 +405,4 @@ driven, for example:
 - replacement of shell subprocesses if Omarchy later exposes an equally simple
   supported API.
 
-Those are follow-ups, not requirements for the initial switcher.
+Those are optional refinements, not part of the core interaction contract.

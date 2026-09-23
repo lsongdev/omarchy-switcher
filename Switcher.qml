@@ -16,6 +16,7 @@ Item {
   property var windows: []
   property int selectedIndex: 0
   property int pendingSteps: 0
+  property bool queryWanted: false
   property var targetScreen: null
   property bool destroying: false
   property string bindingOwner: ""
@@ -99,6 +100,7 @@ Item {
     }
 
     pendingSteps += direction
+    queryWanted = true
     if (!clientsQuery.running)
       clientsQuery.running = true
   }
@@ -115,6 +117,7 @@ Item {
     opened = false
     windows = []
     pendingSteps = 0
+    queryWanted = false
   }
 
   function commit() {
@@ -131,18 +134,22 @@ Item {
   }
 
   function finishWindowQuery(text) {
+    if (!queryWanted) return
+
     var clients
     try {
       clients = JSON.parse(String(text || "[]"))
     } catch (error) {
       console.warn("omarchy-switcher: failed to parse hyprctl clients:", error)
       pendingSteps = 0
+      queryWanted = false
       return
     }
 
     var nextWindows = snapshotWindows(clients)
     if (nextWindows.length < 2) {
       pendingSteps = 0
+      queryWanted = false
       return
     }
 
@@ -151,6 +158,7 @@ Item {
 
     var steps = pendingSteps
     pendingSteps = 0
+    queryWanted = false
     selectedIndex = ((steps % windows.length) + windows.length) % windows.length
 
     opened = true

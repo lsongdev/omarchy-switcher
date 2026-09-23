@@ -34,6 +34,9 @@ Switcher.qml
 The preview surface is created only while the switcher is open. It uses
 Quickshell's `ScreencopyView` and does not write screenshots to disk.
 
+See [docs/DESIGN.md](docs/DESIGN.md) for the UX contract, state machine,
+architecture decisions, known limitations, and local validation checklist.
+
 ## Install
 
 After the MVP is merged into `main`:

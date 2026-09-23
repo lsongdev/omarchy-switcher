@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "id": "org.lsong.window-switcher",
+  "name": "Omarchy Switcher",
+  "version": "0.1.0",
+  "author": "lsong",
+  "license": "MIT",
+  "description": "Minimal Super+Tab visual window switcher for Omarchy.",
+  "keepLoaded": true,
+  "kinds": ["service"],
+  "entryPoints": {
+    "service": "Switcher.qml"
+  }
+}

@@ -152,8 +152,6 @@ Item {
     var steps = pendingSteps
     pendingSteps = 0
     selectedIndex = ((steps % windows.length) + windows.length) % windows.length
-    if (selectedIndex === 0)
-      selectedIndex = steps < 0 ? windows.length - 1 : 1
 
     opened = true
     Qt.callLater(function() {

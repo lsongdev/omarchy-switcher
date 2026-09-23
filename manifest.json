@@ -5,9 +5,11 @@
   "version": "0.1.0",
   "author": "lsong",
   "license": "MIT",
-  "description": "Minimal Super+Tab visual window switcher for Omarchy.",
+  "description": "Fast Super+Tab window switching with MRU-ordered visual previews for Omarchy.",
   "keepLoaded": true,
-  "kinds": ["service"],
+  "kinds": [
+    "service"
+  ],
   "entryPoints": {
     "service": "Switcher.qml"
   }

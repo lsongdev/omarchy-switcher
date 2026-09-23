@@ -29,7 +29,8 @@ Item {
   function normalizeAddress(value) {
     var address = String(value || "").toLowerCase()
     if (!address) return ""
-    return address.indexOf("0x") === 0 ? address : "0x" + address
+    if (address.indexOf("0x") !== 0) address = "0x" + address
+    return /^0x[0-9a-f]+$/.test(address) ? address : ""
   }
 
   function focusedScreen() {
@@ -99,6 +100,8 @@ Item {
       return
     }
 
+    if (!queryWanted)
+      targetScreen = focusedScreen()
     pendingSteps += direction
     queryWanted = true
     if (!clientsQuery.running)
@@ -130,7 +133,12 @@ Item {
     cancel()
 
     if (address)
-      Quickshell.execDetached(["hyprctl", "dispatch", "focuswindow", "address:" + address])
+      Qt.callLater(function() {
+        Quickshell.execDetached([
+          "hyprctl", "eval",
+          'hl.dispatch(hl.dsp.focus({ window = "address:' + address + '" }))'
+        ])
+      })
   }
 
   function finishWindowQuery(text) {
@@ -154,7 +162,6 @@ Item {
     }
 
     windows = nextWindows
-    targetScreen = focusedScreen()
 
     var steps = pendingSteps
     pendingSteps = 0
@@ -269,6 +276,9 @@ Item {
   PanelWindow {
     id: panel
     visible: root.opened
+    onVisibleChanged: {
+      if (visible) keyCatcher.forceActiveFocus()
+    }
     screen: root.targetScreen
     anchors { top: true; bottom: true; left: true; right: true }
     color: "transparent"
@@ -295,6 +305,14 @@ Item {
           event.accepted = true
         }
       }
+      Keys.onReleased: function(event) {
+        if (event.key === Qt.Key_Meta
+            || event.key === Qt.Key_Super_L
+            || event.key === Qt.Key_Super_R) {
+          root.commit()
+          event.accepted = true
+        }
+      }
     }
 
     BorderSurface {
@@ -309,7 +327,8 @@ Item {
             + root.trackPadding * 2
         )
       )
-      height: root.cardHeight + root.trackPadding * 2
+      // Leave room below the cards so ListView's clip does not cut off their bottom border.
+      height: root.cardHeight + root.trackPadding * 2 + Math.max(2, Style.normalBorderWidth)
       radius: Style.cornerRadius
       color: Color.menu.background
       borderSpec: Border.surfaceSpec(
@@ -393,6 +412,9 @@ Item {
               left: parent.left
               right: parent.right
               bottom: parent.bottom
+              leftMargin: card.border.width
+              rightMargin: card.border.width
+              bottomMargin: card.border.width
             }
             height: Style.space(34)
             color: index === root.selectedIndex

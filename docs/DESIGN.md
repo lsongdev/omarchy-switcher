@@ -221,6 +221,9 @@ Super_L release   → commit
 Super_R release   → commit
 ```
 
+The focused overlay also handles the Super key release directly, so a release
+delivered to its exclusive keyboard focus still commits the selection.
+
 The service is `keepLoaded` so these shortcuts remain registered.
 
 On a Hyprland config reload, bindings are installed again.
@@ -247,7 +250,7 @@ For the MVP, custom mappings on these chords are considered conflicting.
 The MVP focuses the selected client by exact Hyprland address:
 
 ```bash
-hyprctl dispatch focuswindow address:0x...
+hyprctl eval 'hl.dispatch(hl.dsp.focus({ window = "address:0x..." }))'
 ```
 
 Prefer an exact address over class/title matching because titles and classes are

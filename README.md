@@ -2,6 +2,8 @@
 
 A deliberately small visual window switcher for Omarchy.
 
+![Omarchy Switcher on an empty workspace](assets/switcher.png)
+
 ## MVP
 
 - `Super+Tab` opens a single horizontal strip of window previews.
@@ -39,8 +41,6 @@ architecture decisions, known limitations, and local validation checklist.
 
 ## Install
 
-After the MVP is merged into `main`:
-
 ```bash
 omarchy plugin add https://github.com/lsongdev/omarchy-switcher.git --enable
 ```
@@ -51,29 +51,7 @@ The plugin id is:
 org.lsong.window-switcher
 ```
 
-## Test the MVP branch
-
-Until the branch is merged, install it directly into the third-party plugin
-directory:
-
-```bash
-git clone --branch mvp/window-switcher \
-  https://github.com/lsongdev/omarchy-switcher.git \
-  ~/.config/omarchy/plugins/org.lsong.window-switcher
-
-omarchy plugin enable org.lsong.window-switcher
-omarchy restart shell
-```
-
 Then hold `Super`, press `Tab` repeatedly, and release `Super`.
-
-To remove the test checkout:
-
-```bash
-omarchy plugin disable org.lsong.window-switcher
-rm -rf ~/.config/omarchy/plugins/org.lsong.window-switcher
-omarchy restart shell
-```
 
 ## Shortcut behavior
 

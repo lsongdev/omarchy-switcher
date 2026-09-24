@@ -364,7 +364,7 @@ Item {
           color: index === root.selectedIndex
             ? Color.menu.selectedBackground
             : Qt.alpha(Color.menu.text, 0.04)
-          border.width: index === root.selectedIndex ? Math.max(2, Style.normalBorderWidth) : Style.normalBorderWidth
+          border.width: Math.max(1, Style.normalBorderWidth)
           border.color: index === root.selectedIndex ? Color.accent : Color.menu.border
           clip: true
 

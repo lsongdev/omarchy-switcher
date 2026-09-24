@@ -321,10 +321,10 @@ Item {
       width: Math.min(
         panel.width - Style.space(80),
         Math.max(
-          root.cardWidth + root.trackPadding * 2,
+          root.cardWidth + track.contentLeftInset + track.contentRightInset,
           root.windows.length * root.cardWidth
             + Math.max(0, root.windows.length - 1) * root.cardSpacing
-            + root.trackPadding * 2
+            + track.contentLeftInset + track.contentRightInset
         )
       )
       // Leave room below the cards so ListView's clip does not cut off their bottom border.
